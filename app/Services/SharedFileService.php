@@ -14,7 +14,8 @@ class SharedFileService
     public function shareFile(int $fileId): FileResource
     {
         $file = File::findOrFail($fileId);
-        if (!$file->sharedFile) {
+        $sharedFile = SharedFile::where('file_id', $file->id)->first();
+        if (!$sharedFile) {
             SharedFile::create([
                 'file_id' => $file->id,
                 'public_code' => SharedFile::generateCode(),
