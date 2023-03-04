@@ -1,0 +1,237 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simple-cloud",
+        "description": "Simple-cloud API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Аутентификация пользователя (логин)",
+                "operationId": "42f77e072dec84b0e1094cca1228298e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "no content"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Выход из системы",
+                "operationId": "03afb12b342c2ea43bdc1de4f39e91a8",
+                "responses": {
+                    "204": {
+                        "description": "no content"
+                    }
+                }
+            }
+        },
+        "/sanctum/csrf-cookie": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Получение csrf",
+                "operationId": "80e4dbbd473968f25058386b54f55b82",
+                "responses": {
+                    "204": {
+                        "description": "no content"
+                    }
+                }
+            }
+        },
+        "/resgister": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Регистрация пользователя",
+                "description": "Handle an incoming registration request.",
+                "operationId": "8931949269dfacd2ab16ba78d0da62c4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "no content"
+                    }
+                }
+            }
+        },
+        "/api/files/upload/{folderId}": {
+            "post": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "Добавление файла",
+                "operationId": "fb847f3856743e31be57b69389068b83",
+                "parameters": [
+                    {
+                        "parameter": "folderId",
+                        "name": "folderId",
+                        "in": "path",
+                        "description": "id папки",
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreFileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/api/files/{fileId}": {
+            "put": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "Изменение информации о файле",
+                "operationId": "d66c3b33658a44a0970f82b7e60e20e2",
+                "parameters": [
+                    {
+                        "parameter": "fileId",
+                        "name": "fileId",
+                        "in": "path",
+                        "description": "id файла",
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "Скачивание файла пользователя",
+                "operationId": "67323a3b26411520d8ab8dc4d7c51561",
+                "parameters": [
+                    {
+                        "parameter": "fileId",
+                        "name": "fileId",
+                        "in": "path",
+                        "description": "id файла",
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "Удаление файла",
+                "operationId": "bcb8cb5bd8e76c35135cae25b3fc3344",
+                "parameters": [
+                    {
+                        "parameter": "candidateId",
+                        "name": "candidateId",
+                        "in": "path",
+                        "description": "id кандидата",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StoreFileRequest": {
+                "properties": {
+                    "file": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateFileRequest": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

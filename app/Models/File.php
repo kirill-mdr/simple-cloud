@@ -10,7 +10,7 @@ class File extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'size', 'folder_id', 'mime_type'];
+    protected $fillable = ['original_name', 'name', 'size', 'folder_id', 'mime_type', 'user_id'];
 
     public function folder(): BelongsTo
     {
@@ -20,5 +20,25 @@ class File extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function sharedFile(): BelongsTo
+    {
+        return $this->belongsTo(SharedFile::class);
+    }
+
+    public function getPath(): string
+    {
+        return $this->folder->getPath() . '/' . $this->name;
+    }
+
+    public function nameWithoutExt(): string
+    {
+        return pathinfo($this->original_name, PATHINFO_FILENAME);
+    }
+
+    public function extension(): string
+    {
+        return pathinfo($this->original_name, PATHINFO_EXTENSION);
     }
 }

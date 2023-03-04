@@ -2,8 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Folder;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    properties: [
+        'file' => new OA\Property(property: 'file', type: 'string', format: 'binary'),
+    ]
+)]
 class StoreFileRequest extends FormRequest
 {
     /**
@@ -11,7 +19,7 @@ class StoreFileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +30,7 @@ class StoreFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'file' => ['required', 'file'],
         ];
     }
 }

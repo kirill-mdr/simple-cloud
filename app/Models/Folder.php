@@ -11,7 +11,7 @@ class Folder extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'parent_id'];
+    protected $fillable = ['name', 'parent_id', 'user_id'];
 
     public function parent(): BelongsTo
     {
@@ -31,6 +31,16 @@ class Folder extends Model
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public function getPath()
+    {
+        if ($this->parent_id) {
+            $parent = $this->parent;
+            return $parent->getPath() . '/' . $this->name;
+        }
+
+        return $this->name;
     }
 
 }

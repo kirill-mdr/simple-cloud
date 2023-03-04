@@ -7,12 +7,27 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OA;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Handle an incoming authentication request.
-     */
+    #[OA\Post(
+        path: '/login',
+        summary: 'Аутентификация пользователя (логин)',
+        requestBody: new OA\RequestBody(
+            content: [new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(property: 'email', type: 'string'),
+                        new OA\Property(property: 'password', type: 'string'),
+                    ],
+                ),
+            )]
+        ),
+        tags: ['auth'],
+        responses: [new OA\Response(response: 204, description: 'no content')]
+    )]
     public function store(LoginRequest $request): Response
     {
         $request->authenticate();
@@ -22,9 +37,13 @@ class AuthenticatedSessionController extends Controller
         return response()->noContent();
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+
+    #[OA\Post(
+        path: '/logout',
+        summary: 'Выход из системы',
+        tags: ['auth'],
+        responses: [new OA\Response(response: 204, description: 'no content')]
+    )]
     public function destroy(Request $request): Response
     {
         Auth::guard('web')->logout();
@@ -35,4 +54,12 @@ class AuthenticatedSessionController extends Controller
 
         return response()->noContent();
     }
+
+    #[OA\Get(
+        path: '/sanctum/csrf-cookie',
+        summary: 'Получение csrf',
+        tags: ['auth'],
+        responses: [new OA\Response(response: 204, description: 'no content')]
+    )]
+    private function csrfCookie() {}
 }
