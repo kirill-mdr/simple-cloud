@@ -296,13 +296,13 @@
                 }
             }
         },
-        "/shared-file/{code}": {
+        "/shared-files/{code}": {
             "get": {
                 "tags": [
                     "shared-files"
                 ],
                 "summary": "Загрузка публичного файла",
-                "operationId": "0a61029a4d157aadc12d500ce3bb971b",
+                "operationId": "44f3177a2e6b890315253ec02d05d54b",
                 "parameters": [
                     {
                         "parameter": "code",

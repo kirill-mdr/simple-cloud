@@ -16,7 +16,7 @@ class SharedFileController extends Controller
     ){}
 
     #[OA\Get(
-        path: '/shared-file/{code}',
+        path: '/shared-files/{code}',
         summary: 'Загрузка публичного файла',
         tags: ['shared-files'],
         parameters: [
