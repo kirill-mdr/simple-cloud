@@ -2,14 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Folder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     properties: [
-        'file' => new OA\Property(property: 'file', type: 'string', format: 'binary'),
+        'file' => new OA\Property(property: 'file', description: 'Файл', type: 'string', format: 'binary'),
     ]
 )]
 class StoreFileRequest extends FormRequest

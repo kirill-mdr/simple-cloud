@@ -3,64 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSharedFileRequest;
-use App\Http\Requests\UpdateSharedFileRequest;
 use App\Models\SharedFile;
+use App\Services\SharedFileService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use OpenApi\Attributes as OA;
 
 class SharedFileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(
+        private readonly SharedFileService $sharedFileService
+    ){}
+
+    #[OA\Get(
+        path: '/shared-file/{code}',
+        summary: 'Загрузка публичного файла',
+        tags: ['shared-files'],
+        parameters: [
+            new OA\Parameter(parameter: "code", name: "code", description: "Публичный код файла", in: "path", example: 'string4332'),
+        ],
+        responses: [new OA\Response(response: 200, description: 'ok')]
+    )]
+    public function downloadFile(string $code): StreamedResponse
     {
-        //
+        return $this->sharedFileService->downloadFile($code);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    #[OA\Post(
+        path: '/api/shared-files/{fileId}',
+        summary: 'Открытие доступа к файлу',
+        tags: ['shared-files'],
+        parameters: [
+            new OA\Parameter(parameter: "fileId", name: "fileId", description: "id файла", in: "path", example: 1),
+        ],
+        responses: [new OA\Response(response: 200, description: 'ok')]
+    )]
+    public function store(int $fileId): JsonResponse
     {
-        //
+        $fileInfo = $this->sharedFileService->shareFile($fileId);
+        return response()->json($fileInfo);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreSharedFileRequest $request)
+    #[OA\Delete(
+        path: '/api/shared-files/{fileId}',
+        summary: 'Удаление публичной ссылки у файла',
+        tags: ['shared-files'],
+        parameters: [
+            new OA\Parameter(parameter: "fileId", name: "fileId", description: "id файла", in: "path", example: 1),
+        ],
+        responses: [
+            new OA\Response(response: 200, description: 'ok'),
+        ]
+    )]
+    public function destroy(int $fileId): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SharedFile $sharedFile)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(SharedFile $sharedFile)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSharedFileRequest $request, SharedFile $sharedFile)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SharedFile $sharedFile)
-    {
-        //
+        $this->sharedFileService->destroySharedFile($fileId);
+        return response()->json(['status' => 'success']);
     }
 }

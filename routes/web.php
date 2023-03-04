@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SharedFileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,5 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
+
+Route::get('/shared-files/{code}', [SharedFileController::class, 'downloadFile']);
 
 require __DIR__.'/auth.php';

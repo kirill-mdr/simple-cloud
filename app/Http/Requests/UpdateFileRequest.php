@@ -7,7 +7,7 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     properties: [
-        'name' => new OA\Property(property: 'name', type: 'string'),
+        'name' => new OA\Property(property: 'name', description: 'Новое имя файла', type: 'string', example: 'Новое имя'),
     ]
 )]
 class UpdateFileRequest extends FormRequest

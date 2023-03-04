@@ -103,39 +103,28 @@
                 }
             }
         },
-        "/api/files/upload/{folderId}": {
-            "post": {
+        "/api/files/{fileId}": {
+            "get": {
                 "tags": [
                     "files"
                 ],
-                "summary": "Добавление файла",
-                "operationId": "fb847f3856743e31be57b69389068b83",
+                "summary": "Скачивание файла пользователя",
+                "operationId": "8939f90edc63f06ba50e5b390d0e2490",
                 "parameters": [
                     {
-                        "parameter": "folderId",
-                        "name": "folderId",
+                        "parameter": "fileId",
+                        "name": "fileId",
                         "in": "path",
-                        "description": "id папки",
+                        "description": "id файла",
                         "example": 1
                     }
                 ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/StoreFileRequest"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "ok"
                     }
                 }
-            }
-        },
-        "/api/files/{fileId}": {
+            },
             "put": {
                 "tags": [
                     "files"
@@ -166,12 +155,177 @@
                     }
                 }
             },
-            "post": {
+            "delete": {
                 "tags": [
                     "files"
                 ],
-                "summary": "Скачивание файла пользователя",
-                "operationId": "67323a3b26411520d8ab8dc4d7c51561",
+                "summary": "Удаление файла",
+                "operationId": "bcb8cb5bd8e76c35135cae25b3fc3344",
+                "parameters": [
+                    {
+                        "parameter": "fileId",
+                        "name": "fileId",
+                        "in": "path",
+                        "description": "id файла",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/api/folders/{folderId}": {
+            "get": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "Получение информации о папке и её файлах",
+                "operationId": "b1e18803b736c79116cbdd3b27400070",
+                "parameters": [
+                    {
+                        "parameter": "folderId",
+                        "name": "folderId",
+                        "in": "path",
+                        "description": "id папки",
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FolderWithAttachmentsResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "folders"
+                ],
+                "summary": "Создание дочерней папки",
+                "operationId": "1d4163c414f8fe4cca551897f83e00a8",
+                "parameters": [
+                    {
+                        "parameter": "folderId",
+                        "name": "folderId",
+                        "in": "path",
+                        "description": "id папки",
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreFolderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "folders"
+                ],
+                "summary": "Удаление директории вместе с вложенными файлами",
+                "operationId": "962a3585c605e6ac1bb540bfb0880353",
+                "parameters": [
+                    {
+                        "parameter": "folderId",
+                        "name": "folderId",
+                        "in": "path",
+                        "description": "id папки",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/api/folders/{folderId}/upload-file": {
+            "post": {
+                "tags": [
+                    "folders"
+                ],
+                "summary": "Добавление файла",
+                "operationId": "32d27cb4ee63771e4fcce08e24619495",
+                "parameters": [
+                    {
+                        "parameter": "folderId",
+                        "name": "folderId",
+                        "in": "path",
+                        "description": "id папки",
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreFileRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/shared-file/{code}": {
+            "get": {
+                "tags": [
+                    "shared-files"
+                ],
+                "summary": "Загрузка публичного файла",
+                "operationId": "0a61029a4d157aadc12d500ce3bb971b",
+                "parameters": [
+                    {
+                        "parameter": "code",
+                        "name": "code",
+                        "in": "path",
+                        "description": "Публичный код файла",
+                        "example": "string4332"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    }
+                }
+            }
+        },
+        "/api/shared-files/{fileId}": {
+            "post": {
+                "tags": [
+                    "shared-files"
+                ],
+                "summary": "Открытие доступа к файлу",
+                "operationId": "d0be5d0a81502b373430afac55a69af8",
                 "parameters": [
                     {
                         "parameter": "fileId",
@@ -189,25 +343,43 @@
             },
             "delete": {
                 "tags": [
-                    "files"
+                    "shared-files"
                 ],
-                "summary": "Удаление файла",
-                "operationId": "bcb8cb5bd8e76c35135cae25b3fc3344",
+                "summary": "Удаление публичной ссылки у файла",
+                "operationId": "bd292cdd7dcea01787962235cdc88a45",
                 "parameters": [
                     {
-                        "parameter": "candidateId",
-                        "name": "candidateId",
+                        "parameter": "fileId",
+                        "name": "fileId",
                         "in": "path",
-                        "description": "id кандидата",
-                        "schema": {
-                            "type": "number"
-                        },
+                        "description": "id файла",
                         "example": 1
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "ok"
+                    }
+                }
+            }
+        },
+        "/api/users/info": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Получение информации о текущем авторизированном пользователе",
+                "operationId": "6dee90740ab1d390bf080291c531bf95",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -218,8 +390,19 @@
             "StoreFileRequest": {
                 "properties": {
                     "file": {
+                        "description": "Файл",
                         "type": "string",
                         "format": "binary"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreFolderRequest": {
+                "properties": {
+                    "folder_name": {
+                        "description": "Название дочерней папки",
+                        "type": "string",
+                        "example": "Documents"
                     }
                 },
                 "type": "object"
@@ -227,7 +410,101 @@
             "UpdateFileRequest": {
                 "properties": {
                     "name": {
+                        "description": "Новое имя файла",
+                        "type": "string",
+                        "example": "Новое имя"
+                    }
+                },
+                "type": "object"
+            },
+            "FileResource": {
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
                         "type": "string"
+                    },
+                    "name_without_ext": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "string"
+                    },
+                    "mime_type": {
+                        "type": "string"
+                    },
+                    "shared_url": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "FolderResource": {
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "parent_id": {
+                        "type": "number"
+                    },
+                    "parent_name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "FolderWithAttachmentsResource": {
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "parent_id": {
+                        "type": "number"
+                    },
+                    "folders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FolderResource"
+                        }
+                    },
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FileResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "home_folder_id": {
+                        "type": "number"
                     }
                 },
                 "type": "object"

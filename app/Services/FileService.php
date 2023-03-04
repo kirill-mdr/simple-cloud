@@ -12,24 +12,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileService
 {
-    public function storeFile(int $folderId, UploadedFile $file): void
-    {
-        $folder = Folder::findOrFail($folderId);
-        $fileUniqueName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . '_' . time() . '.' . $file->getClientOriginalExtension();
-        $path = $folder->getPath();
-
-        Storage::disk('cloud')->putFileAs($path, $file, $fileUniqueName);
-
-        File::create([
-            'original_name' => $file->getClientOriginalName(),
-            'name' => $fileUniqueName,
-            'size' => $file->getSize(),
-            'mime_type' => $file->getMimeType(),
-            'user_id' => Auth::id(),
-            'folder_id' => $folder->id
-        ]);
-    }
-
     public function downloadFile(int $fileId): StreamedResponse
     {
         $file = File::findOrFail($fileId);

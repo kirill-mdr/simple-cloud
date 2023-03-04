@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class File extends Model
 {
@@ -22,9 +23,9 @@ class File extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function sharedFile(): BelongsTo
+    public function sharedFile(): HasOne
     {
-        return $this->belongsTo(SharedFile::class);
+        return $this->hasOne(SharedFile::class);
     }
 
     public function getPath(): string
@@ -32,12 +33,12 @@ class File extends Model
         return $this->folder->getPath() . '/' . $this->name;
     }
 
-    public function nameWithoutExt(): string
+    public function getNameWithoutExt(): string
     {
         return pathinfo($this->original_name, PATHINFO_FILENAME);
     }
 
-    public function extension(): string
+    public function getExtension(): string
     {
         return pathinfo($this->original_name, PATHINFO_EXTENSION);
     }

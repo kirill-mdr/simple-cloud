@@ -3,7 +3,13 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    properties: [
+        'folder_name' => new OA\Property(property: 'folder_name', description: 'Название дочерней папки', type: 'string', example: 'Documents'),
+    ]
+)]
 class StoreFolderRequest extends FormRequest
 {
     /**
@@ -11,7 +17,7 @@ class StoreFolderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +28,7 @@ class StoreFolderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'folder_name' => ['required', 'string'],
         ];
     }
 }

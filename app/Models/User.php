@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getHomeFolderId(): int
+    {
+        $folder = Folder::query()
+            ->where('user_id', $this->id)
+            ->whereNull('parent_id')
+            ->first();
+
+        return $folder->id;
+    }
 }
