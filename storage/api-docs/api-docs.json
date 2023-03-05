@@ -183,7 +183,7 @@
         "/api/folders/{folderId}": {
             "get": {
                 "tags": [
-                    "files"
+                    "folders"
                 ],
                 "summary": "Получение информации о папке и её файлах",
                 "operationId": "b1e18803b736c79116cbdd3b27400070",

@@ -18,7 +18,7 @@ class FolderController extends Controller
     #[OA\Get(
         path: '/api/folders/{folderId}',
         summary: 'Получение информации о папке и её файлах',
-        tags: ['files'],
+        tags: ['folders'],
         parameters: [
             new OA\Parameter(parameter: "folderId", name: "folderId", description: "id папки", in: "path", example: 1),
         ],
