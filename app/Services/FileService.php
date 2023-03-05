@@ -28,7 +28,7 @@ class FileService
     public function updateFileName(int $fileId, string $name): void
     {
         $file = File::findOrFail($fileId);
-        $file->original_name = $name . '.' . $file->extension();
+        $file->original_name = $name . '.' . $file->getExtension();
         $file->save();
     }
 }
