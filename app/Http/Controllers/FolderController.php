@@ -69,8 +69,12 @@ class FolderController extends Controller
     )]
     public function store(int $folderId, StoreFolderRequest $request): JsonResponse
     {
-        $this->folderService->storeFolder($folderId, $request->get('folder_name'));
-        return response()->json(['status' => 'success']);
+        try {
+            $this->folderService->storeFolder($folderId, $request->get('folder_name'));
+            return response()->json(['status' => 'success']);
+        } catch (\Throwable $exception) {
+            return response()->json($exception->getMessage(), 400);
+        }
     }
 
     #[OA\Delete(

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Resources\FolderResource;
 use App\Http\Resources\FolderWithAttachmentsResource;
 use App\Models\File;
 use App\Models\Folder;
@@ -37,6 +36,10 @@ class FolderService
 
     public function storeFolder(int $currentFolderId, string $folderName): void {
         $folder = Folder::findOrFail($currentFolderId);
+
+        if (in_array($folderName, $folder->childrens()->pluck('name')->toArray())) {
+            throw new \ValueError("Folder with this name already exist!");
+        }
 
         Folder::create([
             'name' => $folderName,
