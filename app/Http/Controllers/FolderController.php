@@ -50,7 +50,7 @@ class FolderController extends Controller
             $this->folderService->uploadFile($folderId, $request->file('file'));
             return response()->json(['status' => 'success']);
         } catch (\Throwable $exception) {
-            return response()->json($exception->getMessage(), 400);
+            return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
@@ -73,7 +73,7 @@ class FolderController extends Controller
             $this->folderService->storeFolder($folderId, $request->get('folder_name'));
             return response()->json(['status' => 'success']);
         } catch (\Throwable $exception) {
-            return response()->json($exception->getMessage(), 400);
+            return response()->json(['message' => $exception->getMessage()], 400);
         }
     }
 
