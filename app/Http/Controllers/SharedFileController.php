@@ -40,8 +40,8 @@ class SharedFileController extends Controller
     )]
     public function store(int $fileId): JsonResponse
     {
-        $fileInfo = $this->sharedFileService->shareFile($fileId);
-        return response()->json($fileInfo);
+        $this->sharedFileService->shareFile($fileId);
+        return response()->json(['status' => 'success']);
     }
 
     #[OA\Delete(
@@ -51,9 +51,7 @@ class SharedFileController extends Controller
         parameters: [
             new OA\Parameter(parameter: "fileId", name: "fileId", description: "id файла", in: "path", example: 1),
         ],
-        responses: [
-            new OA\Response(response: 200, description: 'ok'),
-        ]
+        responses: [new OA\Response(response: 200, description: 'ok')]
     )]
     public function destroy(int $fileId): JsonResponse
     {

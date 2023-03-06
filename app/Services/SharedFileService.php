@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SharedFileService
 {
-    public function shareFile(int $fileId): FileResource
+    public function shareFile(int $fileId): void
     {
         $file = File::findOrFail($fileId);
         $sharedFile = SharedFile::where('file_id', $file->id)->first();
@@ -22,7 +22,6 @@ class SharedFileService
                 'user_id' => Auth::id()
             ]);
         }
-        return FileResource::make($file);
     }
 
     public function destroySharedFile(int $fileId): void
