@@ -4,9 +4,6 @@ namespace App\Services;
 
 
 use App\Models\File;
-use App\Models\Folder;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

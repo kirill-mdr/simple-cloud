@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
@@ -27,6 +28,7 @@ class FileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /** @var File $this */
         return [
             'id' => $this->id,
             'name' => $this->original_name,

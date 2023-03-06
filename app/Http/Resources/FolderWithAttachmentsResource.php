@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
@@ -25,13 +26,17 @@ class FolderWithAttachmentsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /** @var Folder $this */
+        $childrenFolders = $this->childrens()->orderBy('name')->get();
+        $files = $this->files()->orderBy('name')->get();
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'parent_id' => $this->parent_id,
-            'folders' => FolderResource::collection($this->childrens),
-            'files' => FileResource::collection($this->files),
+            'folders' => FolderResource::collection($childrenFolders),
+            'files' => FileResource::collection($files),
         ];
     }
 }
